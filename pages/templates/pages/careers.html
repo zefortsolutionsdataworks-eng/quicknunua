@@ -1,0 +1,40 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Careers - QuickNunua{% endblock %}
+
+{% block content %}
+<div class="bg-gray-100 py-4">
+    <div class="container mx-auto px-4">
+        <h1 class="text-2xl font-bold">Careers at QuickNunua</h1>
+    </div>
+</div>
+
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-4 max-w-4xl space-y-6">
+        <p class="text-gray-700">
+            Join QuickNunua and be part of a fast-growing e-commerce platform transforming local shopping.
+        </p>
+
+        <div>
+            <h2 class="text-xl font-bold mb-2">Why Work With Us?</h2>
+            <p class="text-gray-600">
+                We offer a collaborative environment, growth opportunities, and a chance to make real impact.
+            </p>
+        </div>
+
+        <div>
+            <h2 class="text-xl font-bold mb-2">Open Positions</h2>
+            <p class="text-gray-600">
+                Currently, we do not have open roles. Please check back regularly for updates.
+            </p>
+        </div>
+
+        <div>
+            <h2 class="text-xl font-bold mb-2">Get in Touch</h2>
+            <p class="text-gray-600">
+                Interested in future opportunities? <a href="{% url 'pages:contact' %}" class="text-orange-500">Contact us</a> and tell us about yourself.
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

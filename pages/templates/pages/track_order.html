@@ -1,0 +1,37 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Track Order - QuickNunua{% endblock %}
+
+{% block content %}
+<div class="bg-gray-100 py-4">
+    <div class="container mx-auto px-4">
+        <h1 class="text-2xl font-bold">Track Your Order</h1>
+    </div>
+</div>
+
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-4 max-w-2xl">
+        <div class="bg-white rounded-lg shadow-md p-8">
+            <h2 class="text-2xl font-bold mb-6 text-center">Enter Order Details</h2>
+            <form class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Order Number</label>
+                    <input type="text" placeholder="e.g., #123" class="w-full px-4 py-3 border-2 rounded-lg focus:border-orange-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Phone Number</label>
+                    <input type="tel" placeholder="+254 712 345 678" class="w-full px-4 py-3 border-2 rounded-lg focus:border-orange-500">
+                </div>
+                <button type="submit" class="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition font-bold">
+                    Track Order
+                </button>
+            </form>
+            
+            <div class="mt-8 text-center text-sm text-gray-600">
+                <p>Can't find your order?</p>
+                <a href="{% url 'pages:contact' %}" class="text-orange-500 hover:underline">Contact Support</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

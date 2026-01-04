@@ -1,0 +1,117 @@
+<!-- store/templates/partials/navbar.html -->
+<nav class="bg-white shadow-sm sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+
+      <!-- Logo -->
+      <div class="flex items-center gap-6">
+        <a href="{% url 'store:index' %}" class="text-2xl font-extrabold text-orange-500">
+          QuickNunua
+        </a>
+
+        <!-- Desktop Mega Menu -->
+        <div class="hidden lg:flex items-center gap-6">
+          {% for category in top_categories %}
+          <div class="relative group">
+            <a href="{{ category.get_absolute_url }}"
+               class="flex items-center gap-1 font-medium text-gray-700 hover:text-orange-500 py-2">
+              {{ category.name }}
+            </a>
+
+            {% if category.subcategories.exists %}
+            <!-- Mega Dropdown -->
+            <div class="absolute left-0 top-full mt-2 w-[520px] bg-white border border-gray-200 rounded-xl shadow-xl
+                        opacity-0 invisible group-hover:opacity-100 group-hover:visible
+                        transition-all duration-200">
+              <div class="grid grid-cols-2 gap-6 p-6">
+
+                <!-- Subcategories -->
+                <div>
+                  <h4 class="text-sm font-semibold text-gray-500 mb-3">Shop {{ category.name }}</h4>
+                  <ul class="space-y-2">
+                    {% for subcat in category.subcategories.all %}
+                    <li>
+                      <a href="{{ subcat.get_absolute_url }}"
+                         class="block text-gray-700 hover:text-orange-500 hover:translate-x-1 transition">
+                        {{ subcat.name }}
+                      </a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+
+                <!-- Promo / Image -->
+                <div class="rounded-lg overflow-hidden bg-gray-100">
+                  {% if category.image %}
+                    <img src="{{ category.image.url }}" alt="{{ category.name }}"
+                         class="w-full h-full object-cover">
+                  {% else %}
+                    <div class="flex items-center justify-center h-full text-5xl">📦</div>
+                  {% endif %}
+                </div>
+
+              </div>
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Right Section -->
+      <div class="flex items-center gap-4">
+        <!-- Search -->
+        <div class="hidden md:block">
+          <form action="{% url 'store:search' %}" method="get" class="relative">
+            <input type="text" name="q" placeholder="Search products…"
+                   class="w-64 rounded-full border border-gray-300 pl-4 pr-10 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500">
+            <button type="submit" class="absolute right-3 top-1.5 text-gray-400">🔍</button>
+          </form>
+        </div>
+
+        <!-- Account -->
+        <a href="#" class="hidden sm:inline text-gray-700 hover:text-orange-500 font-medium">Account</a>
+
+        <!-- Cart -->
+        <a href="#" class="relative text-gray-700 hover:text-orange-500">
+          🛒
+          <span class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full px-1">0</span>
+        </a>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuBtn" class="lg:hidden text-2xl">☰</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="lg:hidden hidden border-t border-gray-200 bg-white">
+    <div class="px-4 py-4 space-y-4">
+      {% for category in top_categories %}
+      <details class="group">
+        <summary class="flex justify-between items-center cursor-pointer font-medium text-gray-700">
+          {{ category.name }}
+          <span class="group-open:rotate-180 transition">⌄</span>
+        </summary>
+        <div class="mt-2 pl-4 space-y-2">
+          {% for subcat in category.subcategories.all %}
+          <a href="{{ subcat.get_absolute_url }}" class="block text-sm text-gray-600 hover:text-orange-500">
+            {{ subcat.name }}
+          </a>
+          {% endfor %}
+        </div>
+      </details>
+      {% endfor %}
+    </div>
+  </div>
+</nav>
+
+<script>
+  const btn = document.getElementById('mobileMenuBtn');
+  const menu = document.getElementById('mobileMenu');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  }
+</script>

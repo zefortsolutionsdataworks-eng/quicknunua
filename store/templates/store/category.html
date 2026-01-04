@@ -1,0 +1,183 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }} – QuickNunua{% endblock %}
+
+{% block content %}
+
+<!-- ================= BREADCRUMB ================= -->
+<div class="bg-gray-100 py-3 border-b">
+  <div class="max-w-7xl mx-auto px-4">
+    <nav class="flex items-center gap-2 text-sm text-gray-600">
+      <a href="{% url 'store:index' %}" class="hover:text-orange-500">Home</a>
+      <span>›</span>
+      <span class="font-semibold text-gray-900">{{ category.name }}</span>
+    </nav>
+  </div>
+</div>
+
+<!-- ================= CATEGORY HERO ================= -->
+<section class="relative bg-white">
+  <div class="max-w-7xl mx-auto px-4 py-10 grid md:grid-cols-2 gap-8 items-center">
+    
+    <div>
+      <h1 class="text-4xl font-extrabold mb-3">{{ category.name }}</h1>
+
+      {% if category.description %}
+        <p class="text-gray-600 max-w-xl mb-4">
+          {{ category.description }}
+        </p>
+      {% else %}
+        <p class="text-gray-600 max-w-xl mb-4">
+          Discover quality {{ category.name|lower }} at unbeatable prices with fast Nairobi delivery.
+        </p>
+      {% endif %}
+
+      <p class="text-sm text-gray-500">
+        {{ products.count }} products available
+      </p>
+    </div>
+
+    {% if category.image %}
+    <div class="hidden md:block">
+      <img src="{{ category.image.url }}"
+           alt="{{ category.name }}"
+           class="w-full h-56 object-cover rounded-xl shadow-md">
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- ================= MAIN SHOP AREA ================= -->
+<section class="bg-gray-50 py-10">
+  <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-4 gap-8">
+
+    <!-- ========== FILTER SIDEBAR ========== -->
+    <aside class="lg:col-span-1">
+      <div class="bg-white rounded-xl shadow-sm p-6 sticky top-28">
+
+        <h3 class="text-lg font-bold mb-6">Filter Products</h3>
+
+        <!-- Price -->
+        <div class="mb-6">
+          <h4 class="font-semibold mb-3">Price Range</h4>
+          <div class="space-y-2 text-sm">
+            <label class="flex items-center gap-2">
+              <input type="checkbox" class="rounded text-orange-500">
+              Under KSh 1,000
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="checkbox" class="rounded text-orange-500">
+              KSh 1,000 – 5,000
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="checkbox" class="rounded text-orange-500">
+              KSh 5,000 – 10,000
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="checkbox" class="rounded text-orange-500">
+              Above KSh 10,000
+            </label>
+          </div>
+        </div>
+
+        <!-- Availability -->
+        <div class="mb-6 border-t pt-6">
+          <h4 class="font-semibold mb-3">Availability</h4>
+          <div class="space-y-2 text-sm">
+            <label class="flex items-center gap-2">
+              <input type="checkbox" class="rounded text-orange-500">
+              In Stock
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="checkbox" class="rounded text-orange-500">
+              On Sale
+            </label>
+          </div>
+        </div>
+
+        <button class="w-full bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300 transition">
+          Clear Filters
+        </button>
+      </div>
+    </aside>
+
+    <!-- ========== PRODUCT AREA ========== -->
+    <div class="lg:col-span-3">
+
+      <!-- Sorting -->
+      <div class="bg-white rounded-xl shadow-sm p-4 mb-6 flex justify-between items-center">
+        <p class="text-sm text-gray-600">
+          Showing <strong>{{ products.count }}</strong> items
+        </p>
+
+        <select class="border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-orange-500">
+          <option>Featured</option>
+          <option>Price: Low to High</option>
+          <option>Price: High to Low</option>
+          <option>Newest</option>
+        </select>
+      </div>
+
+      {% if products %}
+      <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+
+        {% for product in products %}
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-xl transition group overflow-hidden">
+
+          <a href="{{ product.get_absolute_url }}">
+            <div class="relative aspect-square bg-gray-100">
+              <img src="{{ product.image.url }}"
+                   alt="{{ product.title }}"
+                   class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+
+              {% if product.discount_percentage %}
+              <span class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+                -{{ product.discount_percentage }}%
+              </span>
+              {% endif %}
+            </div>
+
+            <div class="p-4">
+              <h3 class="text-sm font-semibold mb-2 line-clamp-2 group-hover:text-orange-500">
+                {{ product.title }}
+              </h3>
+
+              <div class="flex items-center gap-2 mb-3">
+                <span class="text-orange-500 font-bold text-lg">
+                  KSh {{ product.final_price|floatformat:0 }}
+                </span>
+                {% if product.discount_price %}
+                <span class="text-gray-400 text-xs line-through">
+                  KSh {{ product.price|floatformat:0 }}
+                </span>
+                {% endif %}
+              </div>
+
+              <button class="w-full bg-orange-500 text-white py-2 rounded-lg text-sm font-semibold hover:bg-orange-600 transition">
+                Add to Cart
+              </button>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+
+      </div>
+      {% else %}
+      <div class="bg-white rounded-xl shadow-sm p-14 text-center">
+        <div class="text-6xl mb-4">📦</div>
+        <h3 class="text-2xl font-bold mb-2">No products yet</h3>
+        <p class="text-gray-600 mb-6">
+          We’re adding items to this category. Check back soon.
+        </p>
+        <a href="{% url 'store:index' %}"
+           class="inline-block bg-orange-500 text-white px-8 py-3 rounded-lg hover:bg-orange-600 transition">
+          Continue Shopping
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

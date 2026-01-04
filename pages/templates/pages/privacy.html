@@ -1,0 +1,44 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Privacy Policy - QuickNunua{% endblock %}
+
+{% block content %}
+<div class="bg-gray-100 py-4">
+    <div class="container mx-auto px-4">
+        <h1 class="text-2xl font-bold">Privacy Policy</h1>
+    </div>
+</div>
+
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-4 max-w-4xl space-y-6">
+        <p class="text-gray-700">
+            At QuickNunua, your privacy is important to us. This policy explains how we collect, use, and protect your information.
+        </p>
+
+        <div>
+            <h2 class="text-xl font-bold mb-2">Information We Collect</h2>
+            <p class="text-gray-600">
+                We collect personal information such as your name, phone number, and delivery address when you place an order.
+            </p>
+        </div>
+
+        <div>
+            <h2 class="text-xl font-bold mb-2">How We Use Your Data</h2>
+            <p class="text-gray-600">
+                Your data is used solely to process orders, deliver products, and improve our services.
+            </p>
+        </div>
+
+        <div>
+            <h2 class="text-xl font-bold mb-2">Data Protection</h2>
+            <p class="text-gray-600">
+                We implement appropriate security measures to protect your personal information from unauthorised access.
+            </p>
+        </div>
+
+        <p class="text-gray-600">
+            If you have concerns, please <a href="{% url 'pages:contact' %}" class="text-orange-500">reach out to us</a>.
+        </p>
+    </div>
+</section>
+{% endblock %}

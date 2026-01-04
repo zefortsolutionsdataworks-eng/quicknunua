@@ -1,0 +1,40 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Returns Policy - QuickNunua{% endblock %}
+
+{% block content %}
+<div class="bg-gray-100 py-4">
+    <div class="container mx-auto px-4">
+        <h1 class="text-2xl font-bold">Returns Policy</h1>
+    </div>
+</div>
+
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-4 max-w-4xl space-y-6">
+        <p class="text-gray-700">
+            We want you to shop with confidence. Our returns policy ensures a smooth and fair process.
+        </p>
+
+        <div>
+            <h2 class="text-xl font-bold mb-2">Return Eligibility</h2>
+            <p class="text-gray-600">
+                Items can be returned within 7 days of delivery if unused, in original packaging, and in resalable condition.
+            </p>
+        </div>
+
+        <div>
+            <h2 class="text-xl font-bold mb-2">Non-Returnable Items</h2>
+            <p class="text-gray-600">
+                Perishable goods, innerwear, and customised products are not eligible for return.
+            </p>
+        </div>
+
+        <div>
+            <h2 class="text-xl font-bold mb-2">How to Request a Return</h2>
+            <p class="text-gray-600">
+                Contact our support team through the <a href="{% url 'pages:contact' %}" class="text-orange-500">Contact Page</a> to initiate a return.
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

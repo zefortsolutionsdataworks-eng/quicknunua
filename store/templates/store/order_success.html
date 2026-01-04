@@ -1,0 +1,99 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Order Confirmed - QuickNunua{% endblock %}
+
+{% block content %}
+
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
+            <!-- Success Icon -->
+            <div class="text-center mb-6">
+                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                    <svg class="w-10 h-10 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold mt-4 mb-2">Order Confirmed!</h1>
+                <p class="text-gray-600">Thank you for your order. We'll process it shortly.</p>
+            </div>
+
+            <!-- Order Details -->
+            <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                <h2 class="font-bold text-lg mb-4">Order #{{ order.id }}</h2>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Total:</span>
+                        <span class="font-bold text-orange-500">KSh {{ order.total_amount|floatformat:0 }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Payment:</span>
+                        <span class="font-semibold">{{ order.get_payment_method_display }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Status:</span>
+                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-semibold">
+                            {{ order.get_status_display }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-4 border-t text-sm">
+                    <h3 class="font-semibold mb-2">Delivery To:</h3>
+                    <p class="text-gray-600">
+                        {{ order.first_name }} {{ order.last_name }}<br>
+                        {{ order.address }}, {{ order.city }}<br>
+                        {{ order.phone }}
+                    </p>
+                </div>
+
+                <div class="mt-4 pt-4 border-t">
+                    <h3 class="font-semibold mb-3 text-sm">Items:</h3>
+                    {% for item in order.items.all %}
+                    <div class="flex gap-3 mb-3">
+                        <img src="{{ item.product.image.url }}" class="w-12 h-12 object-cover rounded">
+                        <div class="flex-1">
+                            <div class="font-medium text-sm">{{ item.product.title }}</div>
+                            <div class="text-xs text-gray-500">Qty: {{ item.quantity }} × KSh {{ item.price|floatformat:0 }}</div>
+                        </div>
+                        <div class="font-semibold text-sm">KSh {{ item.get_cost|floatformat:0 }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- What's Next -->
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+                <h3 class="font-bold text-blue-900 mb-3">📦 What's Next?</h3>
+                <ol class="space-y-2 text-sm text-blue-800">
+                    <li>✅ We'll confirm and prepare your order</li>
+                    <li>📞 You'll get a call within 24 hours</li>
+                    <li>🚚 Delivery in 1-2 business days</li>
+                    <li>💵 Pay cash when you receive</li>
+                </ol>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex gap-4">
+                <a href="{% url 'store:index' %}" class="flex-1 text-center bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition font-semibold">
+                    Continue Shopping
+                </a>
+                <button onclick="window.print()" class="flex-1 text-center border-2 border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-50 transition font-semibold">
+                    Print Order
+                </button>
+            </div>
+
+            <!-- Contact -->
+            <div class="mt-6 pt-6 border-t text-center text-sm text-gray-600">
+                <p>Questions? Contact us:</p>
+                <p class="mt-2">
+                    📞 <a href="tel:+254713192383" class="text-orange-500 font-semibold">+254 713 192 383</a> | 
+                    📧 <a href="mailto:support@quicknunua.co.ke" class="text-orange-500 font-semibold">support@quicknunua.co.ke</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

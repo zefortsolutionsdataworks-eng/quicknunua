@@ -1,0 +1,44 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Search Results - QuickNunua{% endblock %}
+
+{% block content %}
+
+<section class="py-8 bg-white">
+    <div class="container mx-auto px-4">
+        <h1 class="text-3xl font-bold mb-2">Search Results</h1>
+        {% if query %}
+        <p class="text-gray-600">Showing results for "{{ query }}"</p>
+        {% endif %}
+    </div>
+</section>
+
+<section class="py-8 bg-gray-50">
+    <div class="container mx-auto px-4">
+        {% if products %}
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {% for product in products %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition group">
+                <a href="{{ product.get_absolute_url }}">
+                    <div class="relative aspect-square bg-gray-200">
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold mb-2">{{ product.title }}</h3>
+                        <span class="text-orange-500 font-bold">KSh {{ product.final_price|floatformat:0 }}</span>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <p class="text-2xl font-bold mb-4">No Results Found</p>
+            <a href="{% url 'store:index' %}" class="bg-orange-500 text-white px-8 py-3 rounded-lg">Back to Home</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

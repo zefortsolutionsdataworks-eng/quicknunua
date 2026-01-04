@@ -1,0 +1,51 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Login - QuickNunua{% endblock %}
+
+{% block content %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-8">
+            <h1 class="text-3xl font-bold mb-6 text-center">Login</h1>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold mb-2">Username</label>
+                    {{ form.username }}
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold mb-2">Password</label>
+                    {{ form.password }}
+                </div>
+                
+                <button type="submit" class="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition font-bold">
+                    Login
+                </button>
+            </form>
+            
+            <div class="mt-6 text-center text-sm">
+                <p class="text-gray-600">Don't have an account? 
+                    <a href="{% url 'accounts:register' %}" class="text-orange-500 font-semibold hover:underline">Register here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    input[type="text"], input[type="password"] {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+    }
+    input:focus {
+        outline: none;
+        border-color: #f97316;
+    }
+</style>
+{% endblock %}

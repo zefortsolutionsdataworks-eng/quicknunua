@@ -1,0 +1,32 @@
+<section class="max-w-7xl mx-auto px-4 py-10">
+  <h2 class="text-3xl font-bold mb-6">Shop by Category</h2>
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+    {% for category in top_categories %}
+      <div class="border rounded-lg overflow-hidden shadow hover:shadow-lg transition">
+        <a href="{{ category.get_absolute_url }}">
+          {% if category.image %}
+            <img src="{{ category.image.url }}" alt="{{ category.name }}" class="w-full h-40 object-cover">
+          {% else %}
+            <div class="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-500 font-semibold">
+              {{ category.name }}
+            </div>
+          {% endif %}
+        </a>
+        <div class="p-2">
+          <h3 class="font-bold text-lg">{{ category.name }}</h3>
+          {% if category.subcategories.all %}
+            <ul class="text-sm mt-1 text-gray-600">
+              {% for sub in category.subcategories.all %}
+                <li>
+                  <a href="{{ sub.get_absolute_url }}" class="hover:text-blue-600">
+                    {{ sub.name }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>

@@ -1,0 +1,174 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}QuickNunua - Shop Quality Products with Fast Delivery in Nairobi{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
+    <div class="container mx-auto px-4 py-16">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+                <h1 class="text-5xl font-bold mb-4">Shop Smart, Live Better</h1>
+                <p class="text-xl mb-6 text-orange-100">Discover amazing products with lightning-fast delivery across Nairobi</p>
+                <div class="flex gap-4">
+                    <a href="#featured" class="bg-white text-orange-500 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                        Shop Now
+                    </a>
+                    <a href="#categories" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-500 transition">
+                        Browse Categories
+                    </a>
+                </div>
+                <div class="flex gap-8 mt-8">
+                    <div>
+                        <div class="text-3xl font-bold">10K+</div>
+                        <div class="text-orange-100">Products</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold">50K+</div>
+                        <div class="text-orange-100">Happy Customers</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold">24/7</div>
+                        <div class="text-orange-100">Support</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hidden md:block">
+                <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600" alt="Shopping" class="rounded-lg shadow-2xl">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Bar -->
+<section class="bg-white py-8 border-b">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="flex items-center gap-3">
+                <div class="bg-orange-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="font-semibold">Fast Delivery</div>
+                    <div class="text-sm text-gray-600">Within 24 hours</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="bg-orange-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="font-semibold">Secure Payment</div>
+                    <div class="text-sm text-gray-600">100% protected</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="bg-orange-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="font-semibold">Easy Returns</div>
+                    <div class="text-sm text-gray-600">7-day return policy</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="bg-orange-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="font-semibold">24/7 Support</div>
+                    <div class="text-sm text-gray-600">Always available</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Grid -->
+<section id="categories" class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-8 text-center">Shop by Category</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {% for category in all_categories %}
+            <a href="{{ category.get_absolute_url }}" class="group">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2">
+                    <div class="aspect-square bg-gray-200 overflow-hidden">
+                        {% if category.image %}
+                            <img src="{{ category.image.url }}" alt="{{ category.name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        {% else %}
+                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-100 to-orange-200">
+                                <span class="text-4xl">📦</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg group-hover:text-orange-500 transition">{{ category.name }}</h3>
+                        <p class="text-sm text-gray-600 mt-1">{{ category.products.count }} items</p>
+                    </div>
+                </div>
+            </a>
+            {% empty %}
+            <div class="col-span-full text-center py-8 text-gray-500">
+                No categories available yet.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+{% if featured_products %}
+<section id="featured" class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-8">Featured Products</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {% for product in featured_products %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition group">
+                <a href="{{ product.get_absolute_url }}">
+                    <div class="relative aspect-square bg-gray-200">
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-full object-cover group-hover:scale-110 transition">
+                        {% if product.discount_percentage %}
+                        <span class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-bold">
+                            -{{ product.discount_percentage }}%
+                        </span>
+                        {% endif %}
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold mb-2 group-hover:text-orange-500">{{ product.title }}</h3>
+                        <div class="flex items-center gap-2">
+                            <span class="text-orange-500 font-bold text-xl">KSh {{ product.final_price|floatformat:0 }}</span>
+                            {% if product.discount_price %}
+                            <span class="text-gray-400 text-sm line-through">KSh {{ product.price|floatformat:0 }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Newsletter -->
+<section class="py-16 bg-gradient-to-r from-orange-500 to-orange-600 text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold mb-4">Get Exclusive Deals & Updates</h2>
+        <p class="mb-8">Subscribe to our newsletter</p>
+        <form class="max-w-md mx-auto flex gap-2">
+            <input type="email" placeholder="Your email" class="flex-1 px-4 py-3 rounded-lg text-gray-900">
+            <button class="bg-white text-orange-500 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100">Subscribe</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
