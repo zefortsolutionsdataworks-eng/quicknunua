@@ -16,13 +16,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ------------------------------------------------------------------
 # Security
 # ------------------------------------------------------------------
+# ⚠️ Keep the secret key in environment variables in production
 SECRET_KEY = os.environ.get(
     'SECRET_KEY',
     'django-insecure-your-default-key-here'
 )
 
+# ⚠️ Debug should be False in production
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
+# Render will provide your domain here
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 # ------------------------------------------------------------------
@@ -36,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Third-party
+    # Third-party apps
     'tailwind',
     'theme',
     'django_browser_reload',
@@ -52,7 +55,7 @@ INSTALLED_APPS = [
 # ------------------------------------------------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # For static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -92,19 +95,12 @@ WSGI_APPLICATION = 'quicknunua.wsgi.application'
 # Database
 # ------------------------------------------------------------------
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-# Override with PostgreSQL in production
-if not DEBUG:
-    DATABASES['default'] = dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
         conn_max_age=600,
         conn_health_checks=True,
     )
+}
 
 # ------------------------------------------------------------------
 # Password validation
@@ -130,7 +126,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ------------------------------------------------------------------
@@ -148,15 +143,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Tailwind
 # ------------------------------------------------------------------
 TAILWIND_APP_NAME = 'theme'
-
-# Local dev only
-INTERNAL_IPS = ['127.0.0.1']
-
-# ⚠️ DO NOT set NPM_BIN_PATH in production
-# NPM_BIN_PATH = r"D:\Claverica\npm.cmd"
+INTERNAL_IPS = ['127.0.0.1']  # local dev only
 
 # ------------------------------------------------------------------
-# Authentication
+# Authentication URLs
 # ------------------------------------------------------------------
 LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = 'store:index'
