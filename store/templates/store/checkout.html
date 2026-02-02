@@ -25,6 +25,16 @@
     <div class="container mx-auto px-4">
         <h1 class="text-3xl font-bold mb-8">Checkout</h1>
 
+        {% if not cart %}
+        <div class="text-center py-16">
+            <div class="text-6xl mb-4">🛒</div>
+            <h2 class="text-2xl font-bold mb-2">Your cart is empty</h2>
+            <a href="{% url 'store:index' %}" class="inline-block bg-orange-500 text-white px-8 py-3 rounded-lg hover:bg-orange-600 transition font-semibold mt-4">
+                Start Shopping
+            </a>
+        </div>
+        {% else %}
+
         <div class="grid lg:grid-cols-3 gap-8">
             <!-- Checkout Form -->
             <div class="lg:col-span-2">
@@ -50,7 +60,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-semibold mb-2">Phone *</label>
-                            <input type="tel" name="phone" required placeholder="+254..." class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-orange-500">
+                            <input type="tel" name="phone" required placeholder="+254 712 345 678" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-orange-500">
                         </div>
                     </div>
 
@@ -67,35 +77,38 @@
                         </div>
                         <div>
                             <label class="block text-sm font-semibold mb-2">Postal Code</label>
-                            <input type="text" name="postal_code" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-orange-500">
+                            <input type="text" name="postal_code" placeholder="Optional" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-orange-500">
                         </div>
                     </div>
 
                     <div class="mb-6">
                         <label class="block text-sm font-semibold mb-2">Delivery Notes (Optional)</label>
-                        <textarea name="delivery_notes" rows="3" placeholder="Any special instructions..." class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-orange-500"></textarea>
+                        <textarea name="delivery_notes" rows="3" placeholder="Any special instructions for delivery..." class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-orange-500"></textarea>
                     </div>
 
                     <h2 class="text-xl font-bold mb-4 mt-8">Payment Method</h2>
                     <div class="space-y-3 mb-6">
-                        <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer hover:border-orange-500">
-                            <input type="radio" name="payment_method" value="cod" checked class="mr-3">
+                        <label class="flex items-center p-4 border-2 border-orange-500 bg-orange-50 rounded-lg cursor-pointer">
+                            <input type="radio" name="payment_method" value="cod" checked class="mr-3 text-orange-500">
                             <div class="flex-1">
-                                <div class="font-semibold">Cash on Delivery</div>
+                                <div class="font-semibold text-gray-900">Cash on Delivery</div>
                                 <div class="text-sm text-gray-600">Pay when you receive your order</div>
                             </div>
+                            <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
+                            </svg>
                         </label>
-                        <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer hover:border-orange-500 opacity-50">
+                        <div class="flex items-center p-4 border-2 rounded-lg opacity-50 bg-gray-50">
                             <input type="radio" name="payment_method" value="mpesa" disabled class="mr-3">
                             <div class="flex-1">
-                                <div class="font-semibold">M-Pesa (Coming Soon)</div>
-                                <div class="text-sm text-gray-600">Pay via M-Pesa</div>
+                                <div class="font-semibold">M-Pesa</div>
+                                <div class="text-sm text-gray-600">Coming Soon - Pay via M-Pesa</div>
                             </div>
-                        </label>
+                        </div>
                     </div>
 
                     <button type="submit" class="w-full bg-orange-500 text-white py-4 rounded-lg hover:bg-orange-600 transition font-bold text-lg">
-                        Place Order
+                        Place Order (KSh {{ cart.get_total_price|floatformat:0 }})
                     </button>
                 </form>
             </div>
@@ -110,10 +123,10 @@
                         <div class="flex gap-3">
                             <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}" class="w-16 h-16 object-cover rounded">
                             <div class="flex-1">
-                                <div class="font-semibold text-sm">{{ item.product.title }}</div>
+                                <div class="font-semibold text-sm line-clamp-2">{{ item.product.title }}</div>
                                 <div class="text-sm text-gray-600">Qty: {{ item.quantity }}</div>
                             </div>
-                            <div class="font-semibold">KSh {{ item.total_price|floatformat:0 }}</div>
+                            <div class="font-semibold text-sm">KSh {{ item.total_price|floatformat:0 }}</div>
                         </div>
                         {% endfor %}
                     </div>
@@ -124,7 +137,7 @@
                             <span class="font-semibold">KSh {{ cart.get_total_price|floatformat:0 }}</span>
                         </div>
                         <div class="flex justify-between">
-                            <span>Delivery</span>
+                            <span>Delivery Fee</span>
                             <span class="text-green-600 font-semibold">FREE</span>
                         </div>
                         <div class="border-t pt-2 flex justify-between text-lg">
@@ -132,9 +145,26 @@
                             <span class="font-bold text-orange-500">KSh {{ cart.get_total_price|floatformat:0 }}</span>
                         </div>
                     </div>
+
+                    <div class="mt-6 space-y-2 text-xs text-gray-600">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
+                            </svg>
+                            <span>Secure Checkout</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
+                            </svg>
+                            <span>24-48 Hour Delivery</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        {% endif %}
     </div>
 </section>
 
