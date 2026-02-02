@@ -1,3 +1,4 @@
 from django.contrib import admin
 
-# Register your models here.
+# Only register models when they exist
+# CustomUser will be registered when you create it later
