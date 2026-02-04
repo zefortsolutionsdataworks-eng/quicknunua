@@ -6,9 +6,6 @@ from pathlib import Path
 import os
 import dj_database_url
 from dotenv import load_dotenv
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 
 # Load environment variables from .env
 load_dotenv()
@@ -40,10 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # Cloudinary (must be before other apps)
-    'cloudinary_storage',
-    'cloudinary',
 
     # Third-party apps
     'tailwind',
@@ -138,26 +131,8 @@ if os.path.exists(BASE_DIR / 'static'):
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ------------------------------------------------------------------
-# Cloudinary Configuration
+# Media files (using external URLs - Imgur)
 # ------------------------------------------------------------------
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', ''),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', ''),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', ''),
-}
-
-cloudinary.config(
-    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],
-    api_key=CLOUDINARY_STORAGE['API_KEY'],
-    api_secret=CLOUDINARY_STORAGE['API_SECRET'],
-    secure=True
-)
-
-# ------------------------------------------------------------------
-# Media files - Cloudinary Storage
-# ------------------------------------------------------------------
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
