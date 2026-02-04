@@ -1,27 +1,23 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block content %}
-
-<section class="categories-section">
-    <h2>Shop by Category</h2>
-
-    <div class="categories-grid">
-        {% for category in categories %}
-            <div class="category-card">
-                {% if category.image %}
-                    <img src="{{ category.image }}" alt="{{ category.name }}" class="category-image">
-                {% else %}
-                    <div class="no-image">📦</div>
-                {% endif %}
-
-                <h3>{{ category.name }}</h3>
-                <p>{{ category.products.count }} items</p>
-            </div>
-        {% empty %}
-            <p>No categories available.</p>
-        {% endfor %}
+{% for category in categories %}
+<a href="{{ category.get_absolute_url }}" class="group">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2">
+        <div class="aspect-square bg-gray-200 overflow-hidden">
+            {% if category.image %}
+                <img src="{{ category.image }}" alt="{{ category.name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+            {% else %}
+                <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-100 to-orange-200">
+                    <span class="text-4xl">📦</span>
+                </div>
+            {% endif %}
+        </div>
+        <div class="p-4 text-center">
+            <h3 class="font-semibold text-lg group-hover:text-orange-500 transition">{{ category.name }}</h3>
+            <p class="text-sm text-gray-600 mt-1">{{ category.products.count }} items</p>
+        </div>
     </div>
-</section>
-
-{% endblock %}
+</a>
+{% empty %}
+<div class="col-span-full text-center py-8 text-gray-500">
+    No categories available yet.
+</div>
+{% endfor %}
