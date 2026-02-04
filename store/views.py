@@ -9,12 +9,16 @@ from .cart import Cart
 
 def index(request):
     """Homepage"""
+    categories = Category.objects.filter(is_active=True)
+
     context = {
+        'categories': categories,
         'featured_products': Product.objects.filter(is_featured=True, is_active=True)[:8],
         'new_arrivals': Product.objects.filter(is_new_arrival=True, is_active=True)[:8],
         'best_sellers': Product.objects.filter(is_best_seller=True, is_active=True)[:8],
         'on_sale': Product.objects.filter(is_on_sale=True, is_active=True)[:4],
     }
+
     return render(request, 'store/index.html', context)
 
 

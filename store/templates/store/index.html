@@ -1,11 +1,27 @@
-{% for category in categories %}
-<div class="category-card">
-    {% if category.image %}
-        <img src="{{ category.image.url }}" alt="{{ category.name }}" class="category-image">
-    {% else %}
-        <div class="no-image">📦</div>
-    {% endif %}
-    <h3>{{ category.name }}</h3>
-    <p>{{ category.products.count }} items</p>
-</div>
-{% endfor %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<section class="categories-section">
+    <h2>Shop by Category</h2>
+
+    <div class="categories-grid">
+        {% for category in categories %}
+            <div class="category-card">
+                {% if category.image %}
+                    <img src="{{ category.image }}" alt="{{ category.name }}" class="category-image">
+                {% else %}
+                    <div class="no-image">📦</div>
+                {% endif %}
+
+                <h3>{{ category.name }}</h3>
+                <p>{{ category.products.count }} items</p>
+            </div>
+        {% empty %}
+            <p>No categories available.</p>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
