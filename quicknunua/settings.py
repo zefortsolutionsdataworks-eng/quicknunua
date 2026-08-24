@@ -27,6 +27,12 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
+# Trusted origins for CSRF (required for Railway/production POST requests)
+CSRF_TRUSTED_ORIGINS = os.environ.get(
+    'CSRF_TRUSTED_ORIGINS',
+    'https://*.up.railway.app'
+).split(',')
+
 # ------------------------------------------------------------------
 # Application definition
 # ------------------------------------------------------------------
@@ -131,7 +137,7 @@ if os.path.exists(BASE_DIR / 'static'):
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ------------------------------------------------------------------
-# Media files (using external URLs - Imgur)
+# Media files
 # ------------------------------------------------------------------
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
